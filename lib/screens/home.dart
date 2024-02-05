@@ -40,8 +40,8 @@ class _StopwatchAppState extends State<StopwatchAppHome> {
 
   void _handleAddLap() {
     setState(() {
+      if (_laps.length >= AppConfig.maxLaps) return;
       _laps.insert(0, _stopwatch.elapsed);
-      if (_laps.length > AppConfig.maxLaps) return;
     });
   }
 
