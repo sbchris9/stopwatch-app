@@ -26,16 +26,16 @@ class DigitalStopwatch extends StatelessWidget {
 }
 
 class _StopwatchText extends StatelessWidget {
-  final Duration _elapsed;
+  const _StopwatchText({required this.elapsed});
 
-  const _StopwatchText({required Duration elapsed}) : _elapsed = elapsed;
+  final Duration elapsed;
 
   @override
   Widget build(BuildContext context) {
     bool isSmallScreen = isScreenSmallerThan(300, context);
 
     return Text(
-      formatTime(_elapsed),
+      formatTime(elapsed),
       style: Theme.of(context)
           .textTheme
           .titleLarge

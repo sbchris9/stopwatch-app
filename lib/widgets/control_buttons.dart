@@ -6,11 +6,11 @@ class StopwatchControlButtons extends StatelessWidget {
   const StopwatchControlButtons({
     super.key,
     required this.isRunning,
+    required this.lapsFilled,
     required this.handleStart,
     required this.handlePause,
     required this.handleReset,
     required this.handleAddLap,
-    required this.lapsFilled,
   });
 
   final bool isRunning;
@@ -22,7 +22,7 @@ class StopwatchControlButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool lapDisabled = !isRunning || lapsFilled;
+    bool addLapDisabled = !isRunning || lapsFilled;
     bool isSmallScreen = isScreenSmallerThan(300, context);
 
     return Row(
@@ -41,8 +41,8 @@ class StopwatchControlButtons extends StatelessWidget {
           iconSize: isSmallScreen ? 20 : 40,
         ),
         IconButton(
-          key: AppWidgetKeys.labButtonKey,
-          onPressed: lapDisabled ? null : handleAddLap,
+          key: AppWidgetKeys.lapButtonKey,
+          onPressed: addLapDisabled ? null : handleAddLap,
           icon: const Icon(Icons.flag_outlined),
           iconSize: isSmallScreen ? 16 : null,
         ),

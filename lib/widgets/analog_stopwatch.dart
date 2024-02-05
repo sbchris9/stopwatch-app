@@ -91,54 +91,52 @@ class _AnalogStopwatchPainter extends CustomPainter {
     double ratio,
   ) {
     double seconds = stopwatch.elapsedMilliseconds / 1000;
-    double secHandAngle = seconds.remainder(60) * 6 - 90;
-
-    var (secondHandStart, secondHandEnd) = _calculateLineFromCenter(
-      center: center,
-      length: baseHandLength * 1.1 * ratio,
-      angle: secHandAngle,
-    );
-
     double minutes = seconds / 60;
-    double minHandAngle = minutes.remainder(60) * 6 - 90;
+    double hours = minutes / 12;
 
-    var (minuteHandStart, minuteHandEnd) = _calculateLineFromCenter(
+    _paintHand(
+      canvas,
+      center,
+      hours,
+      ratio,
+      color: hourHandColor,
+      lengthMultiplier: .9,
+    );
+    _paintHand(canvas, center, minutes, ratio);
+    _paintHand(
+      canvas,
+      center,
+      seconds,
+      ratio,
+      color: primaryColor,
+      lengthMultiplier: 1.1,
+      widthMultiplier: .6,
+    );
+  }
+
+  void _paintHand(
+    Canvas canvas,
+    Offset center,
+    double time,
+    double ratio, {
+    lengthMultiplier = 1.0,
+    widthMultiplier = 1.0,
+    color = baseColor,
+  }) {
+    double angle = time.remainder(60) * 6 - 90;
+
+    var (start, end) = _calculateLineFromCenter(
       center: center,
-      length: baseHandLength * ratio,
-      angle: minHandAngle,
-    );
-
-    double hours = minutes / 60;
-    double hourHandAngle = hours.remainder(60) * 6 - 90;
-
-    var (hourHandStart, hourHandEnd) = _calculateLineFromCenter(
-      center: center,
-      length: (baseHandLength * .9) * ratio,
-      angle: hourHandAngle,
+      length: baseHandLength * lengthMultiplier * ratio,
+      angle: angle,
     );
 
     canvas.drawLine(
-      hourHandStart,
-      hourHandEnd,
+      start,
+      end,
       Paint()
-        ..color = hourHandColor
-        ..strokeWidth = baseHandStrokeWidth * ratio,
-    );
-
-    canvas.drawLine(
-      minuteHandStart,
-      minuteHandEnd,
-      Paint()
-        ..color = baseColor
-        ..strokeWidth = baseHandStrokeWidth * ratio,
-    );
-
-    canvas.drawLine(
-      secondHandStart,
-      secondHandEnd,
-      Paint()
-        ..color = primaryColor
-        ..strokeWidth = baseHandStrokeWidth * .6 * ratio,
+        ..color = color
+        ..strokeWidth = baseHandStrokeWidth * widthMultiplier * ratio,
     );
   }
 
